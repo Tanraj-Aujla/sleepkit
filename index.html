@@ -1,65 +1,181 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sleep Kit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&display=swap">
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,sans-serif;background:#f4f1fa;color:#2a2540;line-height:1.5}
-  .banner{background:#2a2540;color:#fff;text-align:center;padding:.75rem 1rem;font-size:.9rem}
-  main{max-width:640px;margin:0 auto;padding:2rem 1rem}
-  h1{font-size:2rem;line-height:1.2;text-align:center}
-  .card{background:#fff;border-radius:12px;padding:1.5rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08);margin:1.5rem 0}
-  .price{font-size:2rem;font-weight:700;margin:0 0 1rem}
-  button{background:#6c4fd1;color:#fff;border:0;border-radius:8px;padding:.75rem 1.5rem;font-size:1rem;cursor:pointer}
-  button:disabled{background:#4c8a5e;cursor:default}
-  #coming-soon{margin-top:1.25rem;padding-top:1rem;border-top:1px solid #ddd}
-  ul{padding-left:1.25rem}
-  footer{text-align:center;font-size:.85rem;padding:1.5rem 1rem;color:#555}
+/* Layout: single-column storefront. Hero with kit illustration, contents list, price/cart card, honest footer. */
+:root {
+  --bg: #eef0f7;
+  --surface: #ffffff;
+  --fg: #1c2142;
+  --muted: #5b6285;
+  --line: #d5d9ea;
+  --accent: #3a49a6;
+  --accent-fg: #ffffff;
+  --warm: #c9774a;
+  --ok: #2c7a58;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12162b; --surface: #1b2142; --fg: #e9ebf8; --muted: #a2a8c9; --line: #2d3560;
+    --accent: #8f9cf0; --accent-fg: #12162b; --warm: #e59a70; --ok: #6fcf9f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12162b; --surface: #1b2142; --fg: #e9ebf8; --muted: #a2a8c9; --line: #2d3560;
+  --accent: #8f9cf0; --accent-fg: #12162b; --warm: #e59a70; --ok: #6fcf9f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  margin: 0; padding-block: 0 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 960px; margin: 0 auto; }
+.banner { background: var(--fg); color: var(--bg); font-size: 13px; text-align: center; padding: 8px 16px; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); }
+header.nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 12px; flex-wrap: wrap; }
+.logo { font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: -0.01em; }
+.nav small { color: var(--muted); }
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding: 20px 0 36px; }
+.hero > * { min-width: 0; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; font-weight: 600; color: var(--warm); }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 6vw, 54px); line-height: 1.05; letter-spacing: -0.02em; margin: 10px 0 14px; text-wrap: balance; }
+.lede { font-size: 18px; color: var(--muted); max-width: 46ch; margin: 0 0 22px; }
+.art { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 12px; }
+.art svg { width: 100%; height: auto; display: block; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+.buy { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.price { font-family: var(--font-display); font-weight: 700; font-size: 40px; }
+.cur { color: var(--muted); font-size: 14px; }
+button { font: inherit; cursor: pointer; border-radius: 10px; border: 0; padding: 14px 22px; font-weight: 600; }
+.primary { background: var(--accent); color: var(--accent-fg); width: 100%; margin-top: 14px; font-size: 17px; }
+.primary:hover { filter: brightness(1.08); }
+.primary:disabled { cursor: default; filter: none; background: var(--ok); color: #fff; }
+button:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
+.perks { list-style: none; padding: 0; margin: 14px 0 0; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+h2 { font-family: var(--font-display); font-size: 28px; letter-spacing: -0.01em; margin: 0 0 6px; text-wrap: balance; }
+section { padding: 22px 0; }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 60ch; }
+.items { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.item h3 { margin: 0 0 4px; font-size: 17px; }
+.item p { margin: 0; color: var(--muted); font-size: 15px; }
+.item .tag { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+.compare { width: 100%; border-collapse: collapse; font-size: 15px; }
+.compare th, .compare td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.compare th { color: var(--muted); font-weight: 500; }
+.scroll { overflow-x: auto; }
+.panel { border: 2px solid var(--ok); background: var(--surface); border-radius: 16px; padding: 22px; margin-top: 18px; }
+.panel h3 { font-family: var(--font-display); font-size: 24px; margin: 0 0 6px; }
+.panel p { margin: 0 0 12px; color: var(--muted); }
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 12px; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-<div class="banner">Pre-launch preview from a class project. Nothing is for sale and no payment is taken.</div>
-<main>
-  <h1>Make your bedroom ready for better sleep.</h1>
-  <section class="card">
-    <p class="price">$39.99 CAD</p>
-    <button id="add-to-cart" type="button">Add to cart</button>
-    <div id="coming-soon" hidden>
-      <h2>Sleep Kit is coming soon</h2>
-      <button id="join-waitlist" type="button">Join the waitlist</button>
+<div class="wrap">
+  <div class="banner">Pre-launch preview from a class project. Nothing is for sale and no payment is taken.</div>
+  <header class="nav">
+    <span class="logo">Sleep Kit</span>
+    <small>Free shipping on orders over $50 CAD (planned)</small>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Drug-free bedtime set</div>
+      <h1>Make your bedroom ready for better sleep.</h1>
+      <p class="lede">One box with everything for a darker, quieter, calmer night. No pills and no guessing what to buy.</p>
+      <div class="card">
+        <div class="buy"><span class="price">$39.99</span><span class="cur">CAD, kit of 5</span></div>
+        <button class="primary" id="cart" type="button">Add to cart</button>
+        <ul class="perks">
+          <li>Everything you need in one box</li>
+          <li>Starts tonight with a simple wind-down card</li>
+          <li>Ships across Canada (planned)</li>
+        </ul>
+      </div>
+      <div id="panel" class="panel" hidden>
+        <h3>Sleep Kit is coming soon</h3>
+        <p>We are testing interest before we make the first batch, so you have not been charged. Want us to tell you when it is ready?</p>
+        <button class="primary" id="join" type="button" style="margin-top:0">Join the waitlist</button>
+      </div>
     </div>
-  </section>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg" role="img">
+        <rect width="400" height="340" rx="14" fill="var(--bg)"/>
+        <circle cx="318" cy="78" r="34" fill="var(--warm)" opacity="0.9"/>
+        <circle cx="332" cy="68" r="30" fill="var(--bg)"/>
+        <g fill="var(--accent)" opacity="0.5"><circle cx="70" cy="60" r="3"/><circle cx="140" cy="38" r="2"/><circle cx="220" cy="70" r="2.5"/><circle cx="260" cy="30" r="2"/><circle cx="48" cy="120" r="2"/></g>
+        <rect x="60" y="190" width="280" height="100" rx="12" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+        <path d="M60 218h280" stroke="var(--line)" stroke-width="2"/>
+        <ellipse cx="130" cy="164" rx="52" ry="26" fill="var(--accent)"/>
+        <path d="M92 164q38 -14 76 0" stroke="var(--accent-fg)" stroke-width="3" fill="none" opacity="0.6"/>
+        <rect x="200" y="146" width="22" height="34" rx="9" fill="var(--warm)"/>
+        <rect x="228" y="146" width="22" height="34" rx="9" fill="var(--warm)"/>
+        <rect x="270" y="132" width="34" height="48" rx="8" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <rect x="278" y="124" width="18" height="10" rx="3" fill="var(--fg)"/>
+        <text x="200" y="258" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="700" font-size="26" fill="var(--fg)">Sleep Kit</text>
+        <text x="200" y="279" text-anchor="middle" font-family="Figtree, sans-serif" font-size="12" fill="var(--muted)">Mask · Earplugs · Mist · Card · Journal</text>
+      </svg>
+    </div>
+  </div>
+
   <section>
     <h2>What is in the box</h2>
-    <ul>
-      <li>Contoured sleep mask</li>
-      <li>Reusable earplugs with case</li>
-      <li>30 ml lavender pillow mist</li>
-      <li>Wind-down card</li>
-      <li>Mini sleep journal</li>
-    </ul>
+    <p class="sub">Five simple pieces that take care of light, noise, scent and routine.</p>
+    <div class="items">
+      <div class="card item"><div class="tag">Light</div><h3>Contoured sleep mask</h3><p>Soft, padded and adjustable, so your room is dark without changing the curtains.</p></div>
+      <div class="card item"><div class="tag">Noise</div><h3>Reusable earplugs with case</h3><p>Soft silicone earplugs with a small carry case for home or travel.</p></div>
+      <div class="card item"><div class="tag">Scent</div><h3>30 ml lavender pillow mist</h3><p>A travel-size bottle to make your pillow feel like a bedtime cue.</p></div>
+      <div class="card item"><div class="tag">Routine</div><h3>Wind-down card</h3><p>A short checklist for the last 30 minutes of your day, so you know what to do tonight.</p></div>
+      <div class="card item"><div class="tag">Reflect</div><h3>Mini sleep journal</h3><p>Two weeks of simple pages to note what helped and what did not.</p></div>
+    </div>
   </section>
-</main>
-<footer>This is a class project concept and not a medical product.</footer>
+
+  <section>
+    <h2>Why a kit instead of separate products</h2>
+    <p class="sub">You can buy each piece alone. The kit saves you the research and puts it in one box.</p>
+    <div class="card scroll">
+      <table class="compare">
+        <thead><tr><th></th><th>Sleep Kit</th><th>Mask and earplugs set</th><th>Sleep aids</th></tr></thead>
+        <tbody>
+          <tr><th>Blocks light and noise</th><td>Yes</td><td>Yes</td><td>No</td></tr>
+          <tr><th>Includes a bedtime routine</th><td>Yes</td><td>No</td><td>No</td></tr>
+          <tr><th>Drug-free</th><td>Yes</td><td>Yes</td><td>Varies</td></tr>
+          <tr><th>Everything in one box</th><td>Yes</td><td>Partly</td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    Sleep Kit is a class project concept. It is not a medical product and is not meant to diagnose, treat or cure any condition. Price shown is a test price in Canadian dollars.
+  </footer>
+</div>
+
 <script>
-  function track(path, title) {
-    try {
-      if (window.goatcounter && typeof window.goatcounter.count === "function") {
-        window.goatcounter.count({path: path, title: title, event: true});
-      }
-    } catch (e) {}
-  }
-  document.getElementById("add-to-cart").addEventListener("click", function () {
-    document.getElementById("coming-soon").hidden = false;
-    track("add-to-cart", "Add to cart click");
-  });
-  document.getElementById("join-waitlist").addEventListener("click", function (e) {
-    e.target.textContent = "You are on the list";
-    e.target.disabled = true;
-    track("join-waitlist", "Join waitlist click");
-  });
+function track(path, title) {
+  try {
+    if (window.goatcounter && typeof window.goatcounter.count === "function") {
+      window.goatcounter.count({ path: path, title: title, event: true });
+    }
+  } catch (e) {}
+}
+document.getElementById("cart").addEventListener("click", function () {
+  var p = document.getElementById("panel");
+  p.hidden = false;
+  try { p.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+  track("add-to-cart", "Add to cart click");
+});
+document.getElementById("join").addEventListener("click", function () {
+  this.textContent = "You are on the list";
+  this.disabled = true;
+  track("join-waitlist", "Join waitlist click");
+});
 </script>
 <script data-goatcounter="https://sleepkit.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
