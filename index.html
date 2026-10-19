@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleep Kit</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,sans-serif;background:#f4f1fa;color:#2a2540;line-height:1.5}
+  .banner{background:#2a2540;color:#fff;text-align:center;padding:.75rem 1rem;font-size:.9rem}
+  main{max-width:640px;margin:0 auto;padding:2rem 1rem}
+  h1{font-size:2rem;line-height:1.2;text-align:center}
+  .card{background:#fff;border-radius:12px;padding:1.5rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08);margin:1.5rem 0}
+  .price{font-size:2rem;font-weight:700;margin:0 0 1rem}
+  button{background:#6c4fd1;color:#fff;border:0;border-radius:8px;padding:.75rem 1.5rem;font-size:1rem;cursor:pointer}
+  button:disabled{background:#4c8a5e;cursor:default}
+  #coming-soon{margin-top:1.25rem;padding-top:1rem;border-top:1px solid #ddd}
+  ul{padding-left:1.25rem}
+  footer{text-align:center;font-size:.85rem;padding:1.5rem 1rem;color:#555}
+</style>
+</head>
+<body>
+<div class="banner">Pre-launch preview from a class project. Nothing is for sale and no payment is taken.</div>
+<main>
+  <h1>Make your bedroom ready for better sleep.</h1>
+  <section class="card">
+    <p class="price">$39.99 CAD</p>
+    <button id="add-to-cart" type="button">Add to cart</button>
+    <div id="coming-soon" hidden>
+      <h2>Sleep Kit is coming soon</h2>
+      <button id="join-waitlist" type="button">Join the waitlist</button>
+    </div>
+  </section>
+  <section>
+    <h2>What is in the box</h2>
+    <ul>
+      <li>Contoured sleep mask</li>
+      <li>Reusable earplugs with case</li>
+      <li>30 ml lavender pillow mist</li>
+      <li>Wind-down card</li>
+      <li>Mini sleep journal</li>
+    </ul>
+  </section>
+</main>
+<footer>This is a class project concept and not a medical product.</footer>
+<script>
+  function track(path, title) {
+    try {
+      if (window.goatcounter && typeof window.goatcounter.count === "function") {
+        window.goatcounter.count({path: path, title: title, event: true});
+      }
+    } catch (e) {}
+  }
+  document.getElementById("add-to-cart").addEventListener("click", function () {
+    document.getElementById("coming-soon").hidden = false;
+    track("add-to-cart", "Add to cart click");
+  });
+  document.getElementById("join-waitlist").addEventListener("click", function (e) {
+    e.target.textContent = "You are on the list";
+    e.target.disabled = true;
+    track("join-waitlist", "Join waitlist click");
+  });
+</script>
+<script data-goatcounter="https://sleepkit.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
